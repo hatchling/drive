@@ -49,10 +49,10 @@ const (
 )
 
 type Context struct {
-	ClientId     string   `json:"client_id"`
-	ClientSecret string   `json:"client_secret"`
-	RefreshToken string   `json:"refresh_token"`
-	AbsPath      string   `json:"-"`
+	ClientId     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	RefreshToken string `json:"refresh_token"`
+	AbsPath      string `json:"-"`
 }
 
 type Index struct {
@@ -111,12 +111,12 @@ func (c *Context) DeserializeIndex(key string) (*Index, error) {
 		return nil, creationErr
 	}
 
-    db, err := c.OpenDB()
-    if err != nil {
-        return nil, err
-    }
+	db, err := c.OpenDB()
+	if err != nil {
+		return nil, err
+	}
 
-    defer db.Close()
+	defer db.Close()
 
 	var data []byte
 
@@ -150,15 +150,15 @@ func (c *Context) ListKeys(dir, bucketName string) (chan string, error) {
 		return keysChan, creationErr
 	}
 
-    db, err := c.OpenDB()
-    if err != nil {
-        close(keysChan)
-        return keysChan, err
-    }
+	db, err := c.OpenDB()
+	if err != nil {
+		close(keysChan)
+		return keysChan, err
+	}
 
 	go func() {
 		defer func() {
-            db.Close()
+			db.Close()
 			close(keysChan)
 		}()
 
@@ -186,13 +186,13 @@ func (c *Context) PopIndicesKey(key string) error {
 }
 
 func (c *Context) popDbKey(bucketName, key string) error {
-    db, err := c.OpenDB()
-    if err != nil {
-        return err
-    }
-    defer db.Close()
+	db, err := c.OpenDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
 
-    return db.Update(func(tx *bolt.Tx) error {
+	return db.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists(byteify(IndicesKey))
 		if err != nil {
 			return err
@@ -213,11 +213,11 @@ func (c *Context) RemoveIndex(index *Index, p string) error {
 		return ErrEmptyFileIdForIndex
 	}
 
-    db, err := c.OpenDB()
-    if err != nil {
-        return err
-    }
-    defer db.Close()
+	db, err := c.OpenDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
 
 	return db.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists(byteify(IndicesKey))
@@ -232,11 +232,11 @@ func (c *Context) RemoveIndex(index *Index, p string) error {
 }
 
 func (c *Context) CreateIndicesBucket() error {
-    db, err := c.OpenDB()
-    if err != nil {
-        return err
-    }
-    defer db.Close()
+	db, err := c.OpenDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
 
 	return db.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists(byteify(IndicesKey))
@@ -252,17 +252,17 @@ func (c *Context) CreateIndicesBucket() error {
 
 func (c *Context) SerializeIndex(index *Index) (err error) {
 	var data []byte
-    var db *bolt.DB
+	var db *bolt.DB
 
 	if data, err = json.Marshal(index); err != nil {
 		return
 	}
 
-    db, err = c.OpenDB()
-    if err != nil {
-        return err
-    }
-    defer db.Close()
+	db, err = c.OpenDB()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
 
 	return db.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists(byteify(IndicesKey))
@@ -310,15 +310,15 @@ func (c *Context) DeInitialize(prompter func(...interface{}) bool, returnOnAnyEr
 
 func (c *Context) OpenDB() (db *bolt.DB, err error) {
 	dbPath := DbSuffixedPath(c.AbsPathOf(""))
-    db, err = bolt.Open(dbPath, O_RWForAll, nil)
+	db, err = bolt.Open(dbPath, O_RWForAll, nil)
 
-    if err != nil {
-        return db, err
-    }
+	if err != nil {
+		return db, err
+	}
 
-    if db == nil {
-        return db, ErrDerefNilDB
-    }
+	if db == nil {
+		return db, ErrDerefNilDB
+	}
 
 	return db, nil
 }
@@ -334,7 +334,7 @@ func Discover(currentAbsPath string) (context *Context, err error) {
 			found = true
 			break
 		}
-		newPath := path.Join(p, "..")
+		newPath := filepath.Join(p, "..")
 		if p == newPath {
 			break
 		}

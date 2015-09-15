@@ -452,7 +452,7 @@ var regExtStrMap = map[string]string{
 	"mp3": "audio/mpeg",
 
 	"docx?": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-	"pptx?": "application/vnd.openxmlformats-officedocument.wordprocessingml.presentation",
+	"pptx?": "application/vnd.ms-powerpoint",
 	"tsv":   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 	"xlsx?": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 }

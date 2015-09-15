@@ -17,6 +17,7 @@ package drive
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -150,8 +151,10 @@ func (g *Commands) doChangeListRecv(relToRoot, fsPath string, l, r *File, push b
 		return
 	}
 
+	dirname := path.Dir(relToRoot)
+
 	clr := &changeListResolve{
-		dir:    relToRoot,
+		dir:    dirname,
 		base:   relToRoot,
 		local:  l,
 		push:   push,
