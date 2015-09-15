@@ -263,15 +263,20 @@ func (self *File) sameDirType(other *File) bool {
 func (op *Operation) description() (symbol, info string) {
 	switch *op {
 	case OpAdd:
-		return "\033[32m+\033[0m", "Addition"
+		//return "\033[32m+\033[0m", "Addition"
+		return "+", "Addition"
 	case OpDelete:
-		return "\033[31m-\033[0m", "Deletion"
+		//return "\033[31m-\033[0m", "Deletion"
+		return "-", "Deletion"
 	case OpMod:
-		return "\033[33mM\033[0m", "Modification"
+		//return "\033[33mM\033[0m", "Modification"
+		return "M", "Modification"
 	case OpIndexAddition:
-		return "\033[34mI+\033[0m", "Index addition"
+		//return "\033[34mI+\033[0m", "Index addition"
+		return "I+", "Index addition"
 	case OpModConflict:
-		return "\033[35mX\033[0m", "Clashing modification"
+		//return "\033[35mX\033[0m", "Clashing modification"
+		return "X", "Clashing modification"
 	default:
 		return "", ""
 	}

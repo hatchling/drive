@@ -21,6 +21,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/cheggaaa/pb"
 	"github.com/mattn/go-isatty"
@@ -175,6 +176,7 @@ func (g *Commands) taskStart(tasks int64) {
 
 func newProgressBar(total int64) *pb.ProgressBar {
 	pbf := pb.New64(total)
+	pbf.SetRefreshRate(5*time.Second)
 	pbf.Start()
 	return pbf
 }

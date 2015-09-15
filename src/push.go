@@ -101,6 +101,16 @@ func (g *Commands) Push() (err error) {
 
 	nonConflicts := *nonConflictsPtr
 
+	// HATCH HACK ALERT: DO NOT ALLOW DELETIONS!!
+	nonDel := []*Change{}
+	for _, cl := range nonConflicts {
+		if cl.Op() != OpDelete {
+			nonDel = append(nonDel, cl)
+		}
+	}
+	nonConflicts = nonDel
+	// END HACK
+
 	pushSize, modSize := reduceToSize(cl, SelectDest|SelectSrc)
 
 	// TODO: Handle compensation from deletions and modifications

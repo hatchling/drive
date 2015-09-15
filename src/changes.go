@@ -611,12 +611,13 @@ func printChangeList(clArg *changeListArg) (bool, *map[Operation]sizeCounter) {
 		clArg.logy.Logln("Everything is up-to-date.")
 		return false, nil
 	}
-	if clArg.noPrompt {
-		return true, nil
-	}
 
 	opMap := opChangeCount(clArg.changes)
 	previewChanges(clArg, true, opMap)
+
+	if clArg.noPrompt {
+		return true, nil
+	}
 
 	return promptForChanges(), &opMap
 }
